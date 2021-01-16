@@ -17,16 +17,20 @@ public class GitBookHostApplication {
 		SpringApplication.run(GitBookHostApplication.class, args);
 	}
 
-	@GetMapping("/")
+	@GetMapping("/getUserName")
 	String hello(@AuthenticationPrincipal OAuth2User oauth2User ) {
+		return getLoginName(oauth2User);
+	}
+
+	@GetMapping("/getUserInfo")
+	OAuth2User getOauth2User(@AuthenticationPrincipal OAuth2User oauth2User ) {
+		return oauth2User;
+	}
+	private String getLoginName(OAuth2User oauth2User) {
 		if (oauth2User == null) {
 			return "";
 		}
-		System.out.println("userName: " + oauth2User.getName());
-		for(Map.Entry<String, Object> entry: oauth2User.getAttributes().entrySet()) {
-			System.out.println(entry.getKey() + " " + entry.getValue());
-		}
-		return oauth2User.getName();
+		return oauth2User.getAttributes().get("login").toString();
 	}
 
 }

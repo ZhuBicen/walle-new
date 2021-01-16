@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 9001
 spring:
   security:
     oauth2:
@@ -8,3 +8,11 @@ spring:
           github:
             client-id: 1414ffdd794728a2664c
             client-secret: 14e7540cc6ad6939aa28ec2bd2a0afd8da53f317
+
+  cloud:
+    gateway:
+      routes:
+        - id: homepage
+          uri: http://localhost:3001
+          predicates:
+            - Path=/home/**,/sockjs-node/**

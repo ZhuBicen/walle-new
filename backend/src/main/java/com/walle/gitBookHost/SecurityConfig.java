@@ -11,7 +11,9 @@ public class SecurityConfig {
     SecurityWebFilterChain webFluxSecurityFilterChain(ServerHttpSecurity http) throws Exception {
         http
                 .authorizeExchange()
+                .pathMatchers("/getUserName", "/getUserInfo").permitAll()
                 .pathMatchers("/**").authenticated()
+                .pathMatchers("/home/**").permitAll()
                 .and().csrf().disable()
                 .oauth2Login();
         return http.build();
